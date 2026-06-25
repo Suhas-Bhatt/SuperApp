@@ -49,6 +49,7 @@ const NotesWidget = () => {
         value={notes}
         onChange={handleChange}
         placeholder="Write your notes here… They are automatically saved to your browser."
+        maxLength={2000}
         className="w-full h-36 p-4 bg-slate-50/70 border border-slate-200 rounded-xl text-gray-800
                    focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-transparent
                    resize-none transition-all duration-200 text-sm leading-relaxed placeholder-gray-400
@@ -64,7 +65,7 @@ const NotesWidget = () => {
         <div className="flex items-center gap-3 text-xs text-gray-400 font-semibold">
           <span>{wordCount} word{wordCount !== 1 ? 's' : ''}</span>
           <span className="text-gray-200">|</span>
-          <span>{charCount} char{charCount !== 1 ? 's' : ''}</span>
+          <span>{charCount}/2000 chars</span>
         </div>
       </div>
     </div>
