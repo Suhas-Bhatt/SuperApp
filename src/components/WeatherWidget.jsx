@@ -7,6 +7,12 @@ const WeatherWidget = () => {
   const [error, setError] = useState(null);
   const [city, setCity] = useState('Bangalore');
   const [inputCity, setInputCity] = useState('');
+  const [isCelsius, setIsCelsius] = useState(true);
+
+  const convertTemp = (celsius) => {
+    if (isCelsius) return Math.round(celsius);
+    return Math.round((celsius * 9) / 5 + 32);
+  };
 
   useEffect(() => {
     const loadWeather = async () => {
@@ -89,9 +95,18 @@ const WeatherWidget = () => {
       {weather && !loading && (
         <div>
           {/* Hero weather display */}
-          <div className={`bg-gradient-to-br ${getBgGradient(weather.weather[0].description)} rounded-2xl p-5 text-white text-center mb-4`}>
+          <div className={`bg-gradient-to-br ${getBgGradient(weather.weather[0].description)} rounded-2xl p-5 text-white text-center mb-4 relative group`}>
+            <button 
+              onClick={() => setIsCelsius(!isCelsius)}
+              className="absolute top-3 right-3 bg-white/20 hover:bg-white/30 active:scale-95 transition-all text-xs font-bold py-1 px-2 rounded-full cursor-pointer"
+              title="Toggle metric/imperial"
+            >
+              °{isCelsius ? 'C' : 'F'} ⇄ °{isCelsius ? 'F' : 'C'}
+            </button>
             <p className="text-6xl mb-2">{getWeatherIcon(weather.weather[0].description)}</p>
-            <h3 className="text-5xl font-extrabold tracking-tight">{Math.round(weather.main.temp)}°C</h3>
+            <h3 className="text-5xl font-extrabold tracking-tight">
+              {convertTemp(weather.main.temp)}°{isCelsius ? 'C' : 'F'}
+            </h3>
             <p className="capitalize mt-1 text-white/80 font-medium">{weather.weather[0].description}</p>
             <p className="text-sm text-white/70 mt-1 font-semibold">
               {weather.name}{weather.sys?.country ? `, ${weather.sys.country}` : ''}
@@ -104,7 +119,7 @@ const WeatherWidget = () => {
               { label: 'Humidity', value: `${weather.main.humidity}%`, icon: '💧' },
               { label: 'Pressure', value: `${weather.main.pressure} hPa`, icon: '🌡️' },
               { label: 'Wind', value: `${weather.wind.speed} m/s`, icon: '💨' },
-              { label: 'Feels Like', value: `${Math.round(weather.main.feels_like)}°C`, icon: '🤔' },
+              { label: 'Feels Like', value: `${convertTemp(weather.main.feels_like)}°${isCelsius ? 'C' : 'F'}`, icon: '🤔' },
             ].map(({ label, value, icon }) => (
               <div key={label} className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/30 transition-colors duration-200">
                 <p className="text-lg mb-0.5">{icon}</p>
