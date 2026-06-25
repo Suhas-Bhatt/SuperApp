@@ -11,8 +11,9 @@ const Dashboard = () => {
   const selectedCategories = useStore((state) => state.selectedCategories);
   const navigate = useNavigate();
 
-  // Redirect if not registered or no categories
+  // Set title & redirect if not registered or no categories
   useEffect(() => {
+    document.title = 'Dashboard | SuperApp';
     if (!user.name || selectedCategories.length === 0) {
       navigate('/');
     }
