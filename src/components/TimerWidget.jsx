@@ -8,6 +8,7 @@ const TimerWidget = () => {
   const [totalSeconds, setTotalSeconds] = useState(0);
   const [initialTotal, setInitialTotal] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     if (!isRunning || totalSeconds <= 0) return;
@@ -26,6 +27,7 @@ const TimerWidget = () => {
   }, [isRunning, totalSeconds]);
 
   const playNotification = () => {
+    if (isMuted) return;
     try {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
@@ -88,9 +90,18 @@ const TimerWidget = () => {
 
   return (
     <div className="card p-6">
-      <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-        ⏱️ Countdown Timer
-      </h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+          ⏱️ Countdown Timer
+        </h2>
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 text-gray-500 hover:bg-slate-50 transition-colors"
+          title={isMuted ? 'Unmute timer sound' : 'Mute timer sound'}
+        >
+          {isMuted ? '🔇 Muted' : '🔊 Sound On'}
+        </button>
+      </div>
 
       {totalSeconds === 0 && !finished ? (
         <div className="space-y-4">
