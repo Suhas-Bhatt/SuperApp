@@ -8,17 +8,20 @@ const MOVIE_API_KEY = import.meta.env.VITE_MOVIE_API_KEY || '';
 // Helper to check if key is placeholder or missing
 const isPlaceholder = (key) => !key || key.startsWith('YOUR_') || key.trim() === '';
 
-// Create axios instances
+// Create axios instances with default timeout of 10 seconds
 const weatherClient = axios.create({
   baseURL: 'https://api.openweathermap.org/data/2.5',
+  timeout: 10000,
 });
 
 const newsClient = axios.create({
   baseURL: 'https://newsapi.org/v2',
+  timeout: 10000,
 });
 
 const movieClient = axios.create({
   baseURL: 'https://www.omdbapi.com',
+  timeout: 10000,
 });
 
 // Weather API
