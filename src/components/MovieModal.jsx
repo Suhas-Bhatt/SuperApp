@@ -26,6 +26,16 @@ const MovieModal = ({ movie, onClose }) => {
     }
   }, [movie.imdbID]);
 
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
