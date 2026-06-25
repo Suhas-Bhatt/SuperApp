@@ -38,8 +38,9 @@ const Categories = () => {
     }
   };
 
-  // Redirect if not registered
+  // Set title & redirect if not registered
   useEffect(() => {
+    document.title = 'Select Interests | SuperApp';
     if (!user.name) {
       navigate('/');
     }
