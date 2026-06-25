@@ -12,10 +12,21 @@ const CategoryCard = ({ category, isSelected, onToggle }) => {
     Romance: '💕',
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      onToggle();
+    }
+  };
+
   return (
     <div
       onClick={onToggle}
-      className={`cursor-pointer p-6 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 ${
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="checkbox"
+      aria-checked={isSelected}
+      className={`cursor-pointer p-6 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-indigo-400 ${
         isSelected
           ? 'bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl shadow-indigo-500/30 border border-indigo-400/40 scale-105'
           : 'bg-white/75 backdrop-blur-md text-gray-800 border border-white/50 shadow-md hover:shadow-xl hover:shadow-indigo-500/5 hover:bg-white/90'
