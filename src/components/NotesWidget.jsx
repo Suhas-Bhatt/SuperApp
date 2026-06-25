@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStore } from '../store/useStore';
 
 const NotesWidget = () => {
   const notes = useStore((state) => state.notes);
   const setNotes = useStore((state) => state.setNotes);
+  const [savingStatus, setSavingStatus] = useState('Saved');
 
-  const handleChange = (e) => setNotes(e.target.value);
+  const handleChange = (e) => {
+    setNotes(e.target.value);
+    setSavingStatus('Saving...');
+  };
+
+  useEffect(() => {
+    if (savingStatus === 'Saving...') {
+      const timer = setTimeout(() => {
+        setSavingStatus('Saved');
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [notes, savingStatus]);
 
   const handleClear = () => {
     if (window.confirm('Clear all notes? This cannot be undone.')) {
       setNotes('');
+      setSavingStatus('Saved');
     }
   };
 
@@ -43,8 +57,9 @@ const NotesWidget = () => {
 
       {/* Stats bar */}
       <div className="mt-3 flex items-center justify-between">
-        <p className="text-xs text-gray-400 font-medium flex items-center gap-1">
-          <span>💾</span> Auto-saved to browser
+        <p className="text-xs text-gray-400 font-medium flex items-center gap-1 min-w-[130px]">
+          <span>{savingStatus === 'Saving...' ? '⏳' : '💾'}</span>
+          <span>{savingStatus === 'Saving...' ? 'Saving changes...' : 'Auto-saved to browser'}</span>
         </p>
         <div className="flex items-center gap-3 text-xs text-gray-400 font-semibold">
           <span>{wordCount} word{wordCount !== 1 ? 's' : ''}</span>
