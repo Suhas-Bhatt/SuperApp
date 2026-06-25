@@ -63,6 +63,22 @@ const TimerWidget = () => {
     setSeconds(0);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (totalSeconds > 0) {
+          setIsRunning((prev) => !prev);
+        } else {
+          handleStart();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [totalSeconds, hours, minutes, seconds]);
+
   const displayHours = Math.floor(totalSeconds / 3600);
   const displayMinutes = Math.floor((totalSeconds % 3600) / 60);
   const displaySeconds = totalSeconds % 60;
