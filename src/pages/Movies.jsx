@@ -49,8 +49,9 @@ const Movies = () => {
     loadMovies();
   }, [selectedCategories, user.name]);
 
-  // Redirect if not registered
+  // Set title & redirect if not registered
   useEffect(() => {
+    document.title = 'Browse Movies | SuperApp';
     if (!user.name || selectedCategories.length === 0) {
       navigate('/');
     }
