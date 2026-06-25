@@ -22,6 +22,13 @@ const movieClient = axios.create({
 });
 
 // Weather API
+/**
+ * Fetches the current weather for a specific city.
+ * Fallbacks to mock data if no API key is set.
+ * 
+ * @param {string} city - The city name to fetch weather for.
+ * @returns {Promise<Object>} The OpenWeatherMap weather object.
+ */
 export const fetchCurrentWeather = async (city) => {
   if (isPlaceholder(WEATHER_API_KEY)) {
     console.log('Using mock weather data');
@@ -66,6 +73,13 @@ export const fetchCurrentWeather = async (city) => {
 };
 
 // News API
+/**
+ * Fetches top headlines for a specific category.
+ * Fallbacks to mock headlines if no API key is set.
+ * 
+ * @param {string} category - The news category (e.g. general, technology, health).
+ * @returns {Promise<Array>} List of articles.
+ */
 export const fetchTopHeadlines = async (category = 'general') => {
   if (isPlaceholder(NEWS_API_KEY)) {
     console.log('Using mock news data');
@@ -110,6 +124,13 @@ export const fetchTopHeadlines = async (category = 'general') => {
 };
 
 // Movie Search
+/**
+ * Searches movies by a specific query string (or genre key).
+ * Fallbacks to mock movie list if no API key is set.
+ * 
+ * @param {string} query - The search query term.
+ * @returns {Promise<Array>} List of matching movie objects.
+ */
 export const searchMovieByGenre = async (query) => {
   if (isPlaceholder(MOVIE_API_KEY)) {
     console.log('Using mock movie search data');
@@ -180,7 +201,13 @@ export const searchMovieByGenre = async (query) => {
   }
 };
 
-// Movie Details
+/**
+ * Fetches the full details of a specific movie using its IMDb ID.
+ * Fallbacks to mock details if no API key is set or mock ID is used.
+ * 
+ * @param {string} imdbID - The IMDb ID of the movie.
+ * @returns {Promise<Object>} Movie detail object containing plot, ratings, cast, etc.
+ */
 export const fetchMovieDetails = async (imdbID) => {
   if (isPlaceholder(MOVIE_API_KEY) || imdbID.startsWith('tt_mock_')) {
     console.log('Using mock movie details');
